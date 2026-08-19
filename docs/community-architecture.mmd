@@ -1,0 +1,16 @@
+flowchart TB
+    users["المستخدمون\nمدير · معلم · ولي أمر · طالب"] --> ui["واجهة أثر العربية\nReact + RTL"]
+    ui --> auth["مصادقة Manus OAuth"]
+    ui --> api["واجهة tRPC المصرّحة"]
+    api --> access["سياسات الأدوار والعلاقات\nRBAC + Ownership"]
+    access --> service["خدمات المنصة\nالحلقات · الحضور · المتابعة · النقاط · المهام"]
+    service --> database[("MySQL / Drizzle")]
+    service --> notifications["الإشعارات الداخلية\nوالرسائل"]
+    notifications --> ui
+
+    classDef surface fill:#f8f6ef,stroke:#d8cfae,color:#174238
+    classDef primary fill:#174238,stroke:#d7b85e,color:#ffffff
+    classDef data fill:#e8f3ea,stroke:#4f8e7c,color:#174238
+    class users,ui surface
+    class auth,api,access,service primary
+    class database,notifications data

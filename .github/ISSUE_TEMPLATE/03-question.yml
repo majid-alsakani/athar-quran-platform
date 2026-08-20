@@ -1,0 +1,17 @@
+name: سؤال أو نقاش
+description: اطرح سؤالاً محدداً عن استخدام أو تطوير أثر.
+title: "[سؤال]: "
+labels: ["question", "triage"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: السؤال
+      placeholder: اشرح السياق والسؤال بوضوح.
+    validations:
+      required: true
+  - type: textarea
+    id: attempted
+    attributes:
+      label: ما الذي جربته؟
+      placeholder: اذكر الملفات أو الوثائق أو الخطوات التي راجعتها.

@@ -1,0 +1,31 @@
+name: اقتراح تحسين
+description: اقترح ميزة أو تحسيناً يخدم الحلقات القرآنية.
+title: "[تحسين]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: الحاجة
+      placeholder: ما المشكلة أو الفرصة التي يواجهها المستخدم؟
+    validations:
+      required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: الدور المستفيد
+      options: [مدير, معلم, ولي أمر, طالب, أكثر من دور]
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: الاقتراح
+      placeholder: صف التغيير المقترح وتجربة الاستخدام المتوقعة.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: بدائل أو أمثلة
+      placeholder: هل توجد بدائل أو أمثلة مفيدة؟

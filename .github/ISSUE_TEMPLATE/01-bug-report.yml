@@ -1,0 +1,42 @@
+name: بلاغ خطأ
+description: أبلغ عن سلوك لا يعمل كما هو متوقع في منصة أثر.
+title: "[خطأ]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        شكراً لوقتك. لا تضع بيانات طلاب أو أسر أو مفاتيح وصول في البلاغ.
+  - type: dropdown
+    id: role
+    attributes:
+      label: الدور المتأثر
+      options: [مدير, معلم, ولي أمر, طالب, غير ذلك]
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: خطوات التكرار
+      placeholder: اذكر الخطوات التي تقود إلى المشكلة.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: السلوك المتوقع والفعلي
+      placeholder: ما الذي توقعت حدوثه؟ وماذا حدث فعلياً؟
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: البيئة
+      placeholder: المتصفح، الجهاز، وإصدار التطبيق إن وجد.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: الخصوصية
+      options:
+        - label: تأكدت من عدم إرفاق بيانات شخصية أو أسرار.
+          required: true

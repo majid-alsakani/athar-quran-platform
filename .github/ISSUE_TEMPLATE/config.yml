@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: مجتمع إتقان
+    url: https://community.itqan.dev/
+    about: للنقاش العام حول التقنيات القرآنية والمبادرات المجتمعية.
+  - name: مسألة أمنية أو بيانات حساسة
+    url: https://github.com/majid-alsakani/athar-quran-platform/security/advisories/new
+    about: يرجى عدم نشر تفاصيل أمنية أو بيانات مستخدمين في Issue عامة.

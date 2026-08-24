@@ -4,6 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Noto Kufi Arabic", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -43,135 +45,83 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.43 0.075 159);
+  --primary-foreground: oklch(0.98 0.01 160);
+  --sidebar-primary: oklch(0.43 0.075 159);
+  --sidebar-primary-foreground: oklch(0.98 0.01 160);
+  --chart-1: oklch(0.68 0.09 157);
+  --chart-2: oklch(0.61 0.11 156);
+  --chart-3: oklch(0.52 0.09 157);
+  --chart-4: oklch(0.44 0.08 158);
+  --chart-5: oklch(0.36 0.07 159);
+  --radius: 0.85rem;
+  --background: oklch(0.977 0.008 130);
+  --foreground: oklch(0.29 0.028 155);
+  --card: oklch(1 0.004 130);
+  --card-foreground: oklch(0.29 0.028 155);
+  --popover: oklch(1 0.004 130);
+  --popover-foreground: oklch(0.29 0.028 155);
+  --secondary: oklch(0.95 0.02 130);
+  --secondary-foreground: oklch(0.36 0.03 155);
+  --muted: oklch(0.95 0.012 140);
+  --muted-foreground: oklch(0.52 0.02 155);
+  --accent: oklch(0.92 0.03 140);
+  --accent-foreground: oklch(0.29 0.028 155);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  --border: oklch(0.9 0.012 145);
+  --input: oklch(0.9 0.012 145);
+  --ring: oklch(0.52 0.08 159);
+  --sidebar: oklch(0.982 0.008 130);
+  --sidebar-foreground: oklch(0.29 0.028 155);
+  --sidebar-accent: oklch(0.93 0.025 145);
+  --sidebar-accent-foreground: oklch(0.29 0.028 155);
+  --sidebar-border: oklch(0.9 0.012 145);
+  --sidebar-ring: oklch(0.52 0.08 159);
 }
 
 .dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
+  --primary: oklch(0.72 0.09 157);
+  --primary-foreground: oklch(0.21 0.02 155);
+  --sidebar-primary: oklch(0.72 0.09 157);
+  --sidebar-primary-foreground: oklch(0.21 0.02 155);
+  --background: oklch(0.2 0.02 155);
+  --foreground: oklch(0.93 0.015 130);
+  --card: oklch(0.25 0.025 155);
+  --card-foreground: oklch(0.93 0.015 130);
+  --popover: oklch(0.25 0.025 155);
+  --popover-foreground: oklch(0.93 0.015 130);
+  --secondary: oklch(0.29 0.025 155);
+  --secondary-foreground: oklch(0.83 0.015 130);
+  --muted: oklch(0.3 0.02 155);
+  --muted-foreground: oklch(0.72 0.02 140);
+  --accent: oklch(0.31 0.03 155);
+  --accent-foreground: oklch(0.93 0.015 130);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
+  --ring: oklch(0.66 0.1 157);
+  --sidebar: oklch(0.23 0.025 155);
+  --sidebar-foreground: oklch(0.93 0.015 130);
+  --sidebar-accent: oklch(0.3 0.03 155);
+  --sidebar-accent-foreground: oklch(0.96 0.01 130);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  --sidebar-ring: oklch(0.66 0.1 157);
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground font-sans; font-feature-settings: "ss01"; }
+  button:not(:disabled), [role="button"]:not([aria-disabled="true"]), [type="button"]:not(:disabled), [type="submit"]:not(:disabled), [type="reset"]:not(:disabled), a[href], select:not(:disabled), input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled) { @apply cursor-pointer; }
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
-    padding-right: 1rem;
-  }
-
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
-      padding-right: 1.5rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem; /* 32px - desktop padding */
-      padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
-    }
-  }
+  .container { width: 100%; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+  .flex { min-height: 0; min-width: 0; }
+  .form-label { display: block; color: #34534a; font-size: 0.875rem; font-weight: 700; }
+  .form-input { margin-top: 0.5rem; height: 2.75rem; width: 100%; border-radius: 0.75rem; border: 1px solid #d7e1da; background: #fcfdfc; padding: 0 0.75rem; color: #29483e; outline: none; transition: border-color 160ms ease-out, box-shadow 160ms ease-out; }
+  .form-input:focus { border-color: #4b8775; box-shadow: 0 0 0 4px #dbeee7; }
+  @media (min-width: 640px) { .container { padding-left: 1.5rem; padding-right: 1.5rem; } }
+  @media (min-width: 1024px) { .container { padding-left: 2rem; padding-right: 2rem; max-width: 1280px; } }
 }

@@ -335,10 +335,11 @@ function buildCronUser(
   return {
     id: -1,
     openId: userInfo.openId,
+    organizationId: null,
     name: userInfo.name || "Manus Scheduled Task",
     email: null,
     loginMethod: null,
-    role: "user",
+    role: "admin",
     createdAt: now,
     updatedAt: now,
     lastSignedIn: now,

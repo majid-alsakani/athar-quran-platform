@@ -1,0 +1,21 @@
+# Project TODO
+
+- [x] Define the four-role data model: administrator, teacher, guardian, and student.
+- [x] Add relational tables for organizations, circles, memberships, guardianship links, sessions, attendance, progress, tasks, notifications, and scheduled reports.
+- [x] Apply the database migration and verify the resulting schema.
+- [x] Implement protected role-aware backend procedures with organization and circle ownership checks.
+- [x] Implement administrative management for circles, students, guardians, teachers, sessions, and CSV exports.
+- [x] Implement fast mobile attendance capture with progress, revision, tajweed, and session notes.
+- [x] Implement guardian and student progress dashboards with scoped data only.
+- [x] Implement in-app notifications triggered by attendance and progress records.
+- [x] Add a weekly-report job model and a deployment-ready scheduled handler with idempotent delivery logic.
+- [x] Build a public RTL landing page with clear product positioning and authentication entry points.
+- [x] Build a responsive RTL internal dashboard with role-aware navigation and well-defined empty, loading, and error states.
+- [x] Create a safe interactive demo mode without fabricated reviews or testimonials.
+- [x] Write platform documentation covering setup, roles, privacy, pilot metrics, and scheduled-report activation.
+- [x] Write and run Vitest coverage for authorization boundaries and reporting helpers.
+- [x] Run type checking, tests, and visual desktop/mobile verification; correct any issues found.
+- [x] Save a release checkpoint and provide the publish step for the user.
+- [x] Add UI enrollment of students into a circle and session-management actions for the relevant roles.
+- [x] Capture memorization and revision ranges, tajweed grade, progress notes, and session notes in the mobile workflow.
+- [x] Add scoped query-error states with retry actions throughout the internal dashboard.

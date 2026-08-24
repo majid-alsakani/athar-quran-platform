@@ -141,3 +141,5 @@
 .dark .form-label { color: oklch(0.89 0.015 130); }
 .dark .form-input { border-color: oklch(1 0 0 / 14%); background: oklch(0.27 0.025 155); color: oklch(0.94 0.01 130); }
 .dark .form-input:focus { border-color: oklch(0.7 0.09 157); box-shadow: 0 0 0 4px oklch(0.43 0.05 157 / 40%); }
+.demo-chart-notice { border-color: #eadfcb; background: #fff8ea; color: #795c2b; }
+.dark .demo-chart-notice { border-color: oklch(0.72 0.09 85 / 45%); background: oklch(0.29 0.035 85); color: oklch(0.91 0.04 85) !important; }

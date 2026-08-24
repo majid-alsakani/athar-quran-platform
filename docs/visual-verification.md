@@ -21,3 +21,9 @@ At 375px, the public page retained clear touch targets for the theme switch, log
 ## Active dark-mode review — 2026-08-24
 
 The active dark view was checked on the public and demonstration pages at desktop width. After reducing the decorative glow opacity, the hero title, supporting copy, actions, and cards had clear contrast. The preview database has no student, attendance, or progress records yet, so the chart's aggregation and empty-state code were tested, while its plotted rendering must be rechecked once a real session record exists.
+
+## Chart preview review — 2026-08-24
+
+The safe demo page now includes a conspicuously labeled, non-persistent chart preview. Its line and bar charts were checked in dark mode. The chart uses disabled entrance animation so values remain visible immediately in reduced-motion contexts and screenshot captures. The preview does not write to, or claim to represent, a user record.
+
+The final desktop check confirmed that the labelled preview, the warning banner, the attendance line chart, and the progress/points bars all render with readable contrast in dark mode.

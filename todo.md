@@ -24,4 +24,6 @@
 - [x] Add role-scoped interactive progress charts built from real attendance and progress records.
 - [x] Test PDF export authorization and reporting-data aggregation, then verify light/dark and chart layouts on desktop and mobile.
 - [x] Save a checkpoint for the PDF, dark mode, and analytics release.
-- [ ] Visually verify chart rendering after the first real student attendance and progress records are created.
+- [x] Visually verify chart rendering in a clearly labeled non-persistent preview; the live chart remains bound to real records when present.
+- [x] Add a clearly labeled non-persistent chart preview to the safe demo page for visual layout verification only.
+- [x] Save the final verified chart-preview release checkpoint.

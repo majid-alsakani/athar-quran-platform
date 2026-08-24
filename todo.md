@@ -27,3 +27,11 @@
 - [x] Visually verify chart rendering in a clearly labeled non-persistent preview; the live chart remains bound to real records when present.
 - [x] Add a clearly labeled non-persistent chart preview to the safe demo page for visual layout verification only.
 - [x] Save the final verified chart-preview release checkpoint.
+- [ ] Review the Git working tree, commit the completed platform updates, and push the safe changes to the configured GitHub remote.
+- [ ] Inspect available delivery integrations and define a consent-based email/WhatsApp invitation policy.
+- [ ] Add isolated, clearly labeled demonstration records for an organization, guardian, student, session, attendance, and progress without sending messages externally.
+- [ ] Build an administrator-only invitation flow that supports email and WhatsApp delivery choices and records invitation status.
+- [ ] Generate weekly-report PDF attachments server-side and store delivery metadata without exposing student records outside authorized guardian links.
+- [ ] Schedule eligible weekly PDF deliveries with idempotent sending and administrator controls to pause or retry deliveries.
+- [ ] Test invitation authorization, demo-data isolation, PDF delivery payloads, and scheduled-delivery idempotency.
+- [ ] Verify invitation and weekly-report controls on desktop and mobile, then save a release checkpoint.

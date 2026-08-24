@@ -25,7 +25,7 @@ export async function handleWeeklyReportSchedule(req: Request, res: Response) {
       studentId: schedule.studentId,
       scheduleCronTaskUid: user.taskUid,
     });
-    return res.json({ ok: true, delivered: result.delivered, weekStart: result.weekStart.toISOString() });
+    return res.json({ ok: true, externalDelivery: result.externalDelivery, reportId: result.reportId, hasPdf: Boolean(result.pdfStorageKey), weekStart: result.weekStart.toISOString() });
   } catch (error) {
     const details = error instanceof Error ? { message: error.message, stack: error.stack } : { message: String(error) };
     return res.status(500).json({ error: "weekly-report-failed", details, timestamp: new Date().toISOString() });

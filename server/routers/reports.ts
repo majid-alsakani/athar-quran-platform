@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { and, desc, eq, gte, lt } from "drizzle-orm";
 import { parse as parseCookie } from "cookie";
 import { z } from "zod";
-import { attendanceRecords, circles, enrollments, guardianStudentLinks, progressRecords, users, weeklyReportSchedules } from "../../drizzle/schema";
+import { attendanceRecords, circles, enrollments, guardianInvitations, guardianStudentLinks, progressRecords, reportDeliveries, users, weeklyReportSchedules } from "../../drizzle/schema";
 import { COOKIE_NAME } from "../../shared/const";
 import { assertGuardianLink, canExportWeeklyPdf, requireOrganization, requireRole } from "../athar/authorization";
 import { buildStudentTrend } from "../athar/analytics";
@@ -74,6 +74,23 @@ export const reportsRouter = router({
     if (!link) throw new TRPCError({ code: "BAD_REQUEST", message: "لا توجد صلة موثقة بين ولي الأمر والطالب." });
     return deliverWeeklyReport({ organizationId, guardianId: input.guardianId, studentId: input.studentId });
   }),
+  listDeliveries: protectedProcedure.query(async ({ ctx }) => {
+    const organizationId = requireOrganization(ctx.user);
+    requireRole(ctx.user, ["admin"]);
+    const db = await getDb();
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "قاعدة البيانات غير متاحة." });
+    return db.select({ id: reportDeliveries.id, guardianId: reportDeliveries.guardianId, studentId: reportDeliveries.studentId, channel: reportDeliveries.channel, recipient: reportDeliveries.recipient, status: reportDeliveries.status, pdfStorageKey: reportDeliveries.pdfStorageKey, sentAt: reportDeliveries.sentAt, lastError: reportDeliveries.lastError, createdAt: reportDeliveries.createdAt }).from(reportDeliveries).where(eq(reportDeliveries.organizationId, organizationId)).orderBy(desc(reportDeliveries.createdAt));
+  }),
+  retryDelivery: protectedProcedure.input(z.object({ deliveryId: z.number().int().positive() })).mutation(async ({ ctx, input }) => {
+    const organizationId = requireOrganization(ctx.user);
+    requireRole(ctx.user, ["admin"]);
+    const db = await getDb();
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "قاعدة البيانات غير متاحة." });
+    const delivery = (await db.select().from(reportDeliveries).where(and(eq(reportDeliveries.id, input.deliveryId), eq(reportDeliveries.organizationId, organizationId))).limit(1))[0];
+    if (!delivery) throw new TRPCError({ code: "NOT_FOUND", message: "سجل التسليم غير موجود ضمن مؤسستك." });
+    if (delivery.channel === "in_app" || delivery.status === "sent" || delivery.status === "skipped") throw new TRPCError({ code: "PRECONDITION_FAILED", message: "هذا السجل لا يحتاج إلى إعادة محاولة خارجية." });
+    return deliverWeeklyReport({ organizationId, guardianId: delivery.guardianId, studentId: delivery.studentId });
+  }),
   listSchedules: protectedProcedure.query(async ({ ctx }) => {
     const organizationId = requireOrganization(ctx.user);
     requireRole(ctx.user, ["admin"]);
@@ -92,6 +109,8 @@ export const reportsRouter = router({
       if (!link) throw new TRPCError({ code: "BAD_REQUEST", message: "لا توجد صلة موثقة بين ولي الأمر والطالب." });
       const pair = await db.select({ id: users.id }).from(users).where(and(eq(users.organizationId, organizationId)));
       if (!pair.some(user => user.id === input.guardianId) || !pair.some(user => user.id === input.studentId)) throw new TRPCError({ code: "FORBIDDEN", message: "يجب أن يكون ولي الأمر والطالب ضمن المؤسسة." });
+      const consent = (await db.select({ id: guardianInvitations.id }).from(guardianInvitations).where(and(eq(guardianInvitations.organizationId, organizationId), eq(guardianInvitations.guardianId, input.guardianId), eq(guardianInvitations.studentId, input.studentId), eq(guardianInvitations.status, "accepted"))).limit(1))[0];
+      if (!consent) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "لا يمكن جدولة الإرسال الخارجي قبل قبول ولي الأمر للدعوة وتسجيل موافقته." });
       const sessionToken = requireSessionToken(ctx.req.headers.cookie);
       const existing = (await db.select().from(weeklyReportSchedules).where(and(eq(weeklyReportSchedules.guardianId, input.guardianId), eq(weeklyReportSchedules.studentId, input.studentId))).limit(1))[0];
       if (existing?.scheduleCronTaskUid) {

@@ -14,6 +14,7 @@ export const organizations = mysqlTable("organizations", {
   id: int("id").autoincrement().primaryKey(),
   name: varchar("name", { length: 160 }).notNull(),
   city: varchar("city", { length: 120 }),
+  isDemo: boolean("isDemo").default(false).notNull(),
   status: mysqlEnum("status", ["active", "paused"]).default("active").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
@@ -81,6 +82,37 @@ export const guardianStudentLinks = mysqlTable(
   table => [
     uniqueIndex("guardian_student_unique").on(table.guardianId, table.studentId),
     index("guardian_links_student_idx").on(table.studentId),
+  ],
+);
+
+export const guardianInvitations = mysqlTable(
+  "guardianInvitations",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    organizationId: int("organizationId").notNull().references(() => organizations.id, { onDelete: "cascade" }),
+    studentId: int("studentId").notNull().references(() => users.id, { onDelete: "cascade" }),
+    guardianId: int("guardianId").references(() => users.id, { onDelete: "set null" }),
+    recipientName: varchar("recipientName", { length: 160 }).notNull(),
+    recipientEmail: varchar("recipientEmail", { length: 320 }),
+    recipientPhone: varchar("recipientPhone", { length: 32 }),
+    recipientNormalized: varchar("recipientNormalized", { length: 320 }).notNull(),
+    channel: mysqlEnum("channel", ["email", "whatsapp"]).notNull(),
+    token: varchar("token", { length: 80 }).notNull().unique(),
+    status: mysqlEnum("status", ["draft", "queued", "sent", "failed", "accepted", "cancelled", "expired"]).default("draft").notNull(),
+    consentAt: timestamp("consentAt"),
+    sentAt: timestamp("sentAt"),
+    acceptedAt: timestamp("acceptedAt"),
+    expiresAt: timestamp("expiresAt").notNull(),
+    providerMessageId: varchar("providerMessageId", { length: 160 }),
+    lastError: text("lastError"),
+    requestedById: int("requestedById").notNull().references(() => users.id, { onDelete: "restrict" }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  table => [
+    index("guardian_invites_org_status_idx").on(table.organizationId, table.status),
+    index("guardian_invites_student_idx").on(table.studentId),
+    index("guardian_invites_recipient_idx").on(table.organizationId, table.channel, table.recipientNormalized),
   ],
 );
 
@@ -179,6 +211,8 @@ export const weeklyReports = mysqlTable(
     studentId: int("studentId").notNull().references(() => users.id, { onDelete: "cascade" }),
     weekStart: timestamp("weekStart").notNull(),
     summary: text("summary").notNull(),
+    pdfStorageKey: varchar("pdfStorageKey", { length: 512 }),
+    generatedAt: timestamp("generatedAt"),
     deliveredAt: timestamp("deliveredAt"),
     scheduleCronTaskUid: varchar("scheduleCronTaskUid", { length: 65 }),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -186,6 +220,31 @@ export const weeklyReports = mysqlTable(
   table => [
     uniqueIndex("weekly_report_guardian_student_week_unique").on(table.guardianId, table.studentId, table.weekStart),
     index("weekly_reports_schedule_uid_idx").on(table.scheduleCronTaskUid),
+  ],
+);
+
+export const reportDeliveries = mysqlTable(
+  "reportDeliveries",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    weeklyReportId: int("weeklyReportId").notNull().references(() => weeklyReports.id, { onDelete: "cascade" }),
+    organizationId: int("organizationId").notNull().references(() => organizations.id, { onDelete: "cascade" }),
+    guardianId: int("guardianId").notNull().references(() => users.id, { onDelete: "cascade" }),
+    studentId: int("studentId").notNull().references(() => users.id, { onDelete: "cascade" }),
+    channel: mysqlEnum("channel", ["email", "whatsapp", "in_app"]).notNull(),
+    recipient: varchar("recipient", { length: 320 }).notNull(),
+    status: mysqlEnum("status", ["queued", "sent", "failed", "skipped"]).default("queued").notNull(),
+    pdfStorageKey: varchar("pdfStorageKey", { length: 512 }),
+    providerMessageId: varchar("providerMessageId", { length: 160 }),
+    attemptCount: int("attemptCount").default(0).notNull(),
+    lastError: text("lastError"),
+    sentAt: timestamp("sentAt"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  table => [
+    uniqueIndex("report_delivery_report_channel_recipient_unique").on(table.weeklyReportId, table.channel, table.recipient),
+    index("report_deliveries_guardian_status_idx").on(table.guardianId, table.status),
   ],
 );
 

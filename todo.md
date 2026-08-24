@@ -27,11 +27,17 @@
 - [x] Visually verify chart rendering in a clearly labeled non-persistent preview; the live chart remains bound to real records when present.
 - [x] Add a clearly labeled non-persistent chart preview to the safe demo page for visual layout verification only.
 - [x] Save the final verified chart-preview release checkpoint.
-- [ ] Review the Git working tree, commit the completed platform updates, and push the safe changes to the configured GitHub remote.
-- [ ] Inspect available delivery integrations and define a consent-based email/WhatsApp invitation policy.
-- [ ] Add isolated, clearly labeled demonstration records for an organization, guardian, student, session, attendance, and progress without sending messages externally.
-- [ ] Build an administrator-only invitation flow that supports email and WhatsApp delivery choices and records invitation status.
-- [ ] Generate weekly-report PDF attachments server-side and store delivery metadata without exposing student records outside authorized guardian links.
-- [ ] Schedule eligible weekly PDF deliveries with idempotent sending and administrator controls to pause or retry deliveries.
-- [ ] Test invitation authorization, demo-data isolation, PDF delivery payloads, and scheduled-delivery idempotency.
-- [ ] Verify invitation and weekly-report controls on desktop and mobile, then save a release checkpoint.
+- [x] Review the Git working tree, commit the completed platform updates, and push the safe changes to the configured GitHub remote.
+- [x] Inspect available delivery integrations and define a consent-based email/WhatsApp invitation policy.
+- [x] Add isolated, clearly labeled demonstration records for an organization, guardian, student, session, attendance, and progress without sending messages externally.
+- [x] Build an administrator-only invitation flow that supports email and WhatsApp delivery choices and records invitation status.
+- [x] Generate weekly-report PDF attachments server-side and store delivery metadata without exposing student records outside authorized guardian links.
+- [x] Schedule eligible weekly PDF deliveries with idempotent sending and administrator controls to pause or retry deliveries.
+- [x] Test invitation authorization, demo-data isolation, PDF delivery payloads, and scheduled-delivery idempotency.
+- [x] Verify invitation and weekly-report controls on desktop and mobile, then save a release checkpoint.
+- [x] Add expiry, normalized recipients, duplicate protection, and public token validation for guardian invitations.
+- [x] Generate an Arabic server-side weekly PDF, store only its object key, and separate report generation from external-delivery status.
+- [x] Add an idempotent per-channel delivery ledger that safely remains queued when no approved email or WhatsApp provider is configured.
+- [x] Attach the project owner to the isolated demo organization and seed one current-week record for practical report testing.
+- [x] Add an administrator retry action for queued or failed report deliveries without duplicating external dispatch.
+- [x] Add feature-level tests for invitation authorization, demo isolation, PDF generation metadata, and repeated scheduled delivery.

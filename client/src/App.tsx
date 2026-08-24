@@ -13,6 +13,7 @@ import PeoplePage from "./pages/PeoplePage";
 import ProgressPage from "./pages/ProgressPage";
 import ReportsPage from "./pages/ReportsPage";
 import SessionsPage from "./pages/SessionsPage";
+import AcceptInvitationPage from "./pages/AcceptInvitationPage";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -20,6 +21,7 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/demo"} component={DemoPage} />
+      <Route path={"/invite/:token"} component={AcceptInvitationPage} />
       <Route path={"/app"} component={DashboardPage} />
       <Route path={"/app/circles"} component={CirclesPage} />
       <Route path={"/app/people"} component={PeoplePage} />

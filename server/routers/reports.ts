@@ -4,7 +4,8 @@ import { parse as parseCookie } from "cookie";
 import { z } from "zod";
 import { attendanceRecords, circles, enrollments, guardianStudentLinks, progressRecords, users, weeklyReportSchedules } from "../../drizzle/schema";
 import { COOKIE_NAME } from "../../shared/const";
-import { assertGuardianLink, requireOrganization, requireRole } from "../athar/authorization";
+import { assertGuardianLink, canExportWeeklyPdf, requireOrganization, requireRole } from "../athar/authorization";
+import { buildStudentTrend } from "../athar/analytics";
 import { getDb } from "../db";
 import { createHeartbeatJob, updateHeartbeatJob } from "../_core/heartbeat";
 import { protectedProcedure, router } from "../_core/trpc";
@@ -25,15 +26,16 @@ export const reportsRouter = router({
     const db = await getDb();
     if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "قاعدة البيانات غير متاحة." });
     const target = (await db.select({ organizationId: users.organizationId }).from(users).where(eq(users.id, input.studentId)).limit(1))[0];
-    if (!target || !ctx.user.organizationId || target.organizationId !== ctx.user.organizationId) {
+    if (!target || !canExportWeeklyPdf(ctx.user, target.organizationId, input.studentId)) {
       throw new TRPCError({ code: "FORBIDDEN", message: "لا يمكنك الاطلاع على هذا التقرير." });
     }
+    const organizationId = requireOrganization(ctx.user);
     if (ctx.user.role === "teacher") {
       const assigned = await db
         .select({ circleId: circles.id })
         .from(enrollments)
         .innerJoin(circles, eq(enrollments.circleId, circles.id))
-        .where(and(eq(enrollments.studentId, input.studentId), eq(enrollments.status, "active"), eq(circles.teacherId, ctx.user.id), eq(circles.organizationId, ctx.user.organizationId)))
+        .where(and(eq(enrollments.studentId, input.studentId), eq(enrollments.status, "active"), eq(circles.teacherId, ctx.user.id), eq(circles.organizationId, organizationId)))
         .limit(1);
       if (!assigned[0]) throw new TRPCError({ code: "FORBIDDEN", message: "لا يمكنك الاطلاع على هذا التقرير." });
     }
@@ -44,6 +46,24 @@ export const reportsRouter = router({
     const attendance = await db.select().from(attendanceRecords).where(and(eq(attendanceRecords.studentId, input.studentId), gte(attendanceRecords.recordedAt, weekStart), lt(attendanceRecords.recordedAt, weekEnd)));
     const progress = await db.select().from(progressRecords).where(and(eq(progressRecords.studentId, input.studentId), gte(progressRecords.recordedAt, weekStart), lt(progressRecords.recordedAt, weekEnd))).orderBy(desc(progressRecords.recordedAt));
     return { attendance, progress, weekStart };
+  }),
+  studentTrend: protectedProcedure.input(z.object({ studentId: z.number().int().positive(), weeks: z.number().int().min(4).max(16).default(8) })).query(async ({ ctx, input }) => {
+    if (ctx.user.role === "student" && ctx.user.id !== input.studentId) throw new TRPCError({ code: "FORBIDDEN", message: "لا يمكنك الاطلاع على هذا التقرير." });
+    if (ctx.user.role === "guardian") await assertGuardianLink(ctx.user.id, input.studentId);
+    const db = await getDb();
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "قاعدة البيانات غير متاحة." });
+    const target = (await db.select({ organizationId: users.organizationId }).from(users).where(eq(users.id, input.studentId)).limit(1))[0];
+    if (!target || !canExportWeeklyPdf(ctx.user, target.organizationId, input.studentId)) throw new TRPCError({ code: "FORBIDDEN", message: "لا يمكنك الاطلاع على هذا التقرير." });
+    const organizationId = requireOrganization(ctx.user);
+    if (ctx.user.role === "teacher") {
+      const assigned = await db.select({ circleId: circles.id }).from(enrollments).innerJoin(circles, eq(enrollments.circleId, circles.id)).where(and(eq(enrollments.studentId, input.studentId), eq(enrollments.status, "active"), eq(circles.teacherId, ctx.user.id), eq(circles.organizationId, organizationId))).limit(1);
+      if (!assigned[0]) throw new TRPCError({ code: "FORBIDDEN", message: "لا يمكنك الاطلاع على هذا التقرير." });
+    }
+    const start = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate()));
+    start.setUTCDate(start.getUTCDate() - ((start.getUTCDay() + 6) % 7) - (input.weeks - 1) * 7);
+    const attendance = await db.select({ recordedAt: attendanceRecords.recordedAt, status: attendanceRecords.status }).from(attendanceRecords).where(and(eq(attendanceRecords.studentId, input.studentId), gte(attendanceRecords.recordedAt, start)));
+    const progress = await db.select({ recordedAt: progressRecords.recordedAt, pointsAwarded: progressRecords.pointsAwarded }).from(progressRecords).where(and(eq(progressRecords.studentId, input.studentId), gte(progressRecords.recordedAt, start)));
+    return buildStudentTrend({ attendance, progress, weeks: input.weeks });
   }),
   generateWeekly: protectedProcedure.input(z.object({ guardianId: z.number().int().positive(), studentId: z.number().int().positive() })).mutation(async ({ ctx, input }) => {
     const organizationId = requireOrganization(ctx.user);

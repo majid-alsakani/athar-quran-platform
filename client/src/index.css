@@ -125,3 +125,19 @@
   @media (min-width: 640px) { .container { padding-left: 1.5rem; padding-right: 1.5rem; } }
   @media (min-width: 1024px) { .container { padding-left: 2rem; padding-right: 2rem; max-width: 1280px; } }
 }
+
+.dark .athar-public,
+.dark .athar-dashboard { background: var(--background) !important; color: var(--foreground); }
+.dark .athar-public [class*="bg-white"],
+.dark .athar-dashboard [class*="bg-white"],
+.dark .athar-dashboard [class*="bg-[#f"],
+.dark .athar-dashboard [class*="bg-[#e"] { background-color: oklch(0.25 0.025 155) !important; }
+.dark .athar-public [class*="text-[#"],
+.dark .athar-dashboard [class*="text-[#"] { color: oklch(0.9 0.015 130) !important; }
+.dark .athar-public [class*="border-[#"],
+.dark .athar-dashboard [class*="border-[#"] { border-color: oklch(1 0 0 / 12%) !important; }
+.dark .athar-public [class*="blur-3xl"],
+.dark .athar-public [class*="blur-2xl"] { opacity: 0.22; }
+.dark .form-label { color: oklch(0.89 0.015 130); }
+.dark .form-input { border-color: oklch(1 0 0 / 14%); background: oklch(0.27 0.025 155); color: oklch(0.94 0.01 130); }
+.dark .form-input:focus { border-color: oklch(0.7 0.09 157); box-shadow: 0 0 0 4px oklch(0.43 0.05 157 / 40%); }

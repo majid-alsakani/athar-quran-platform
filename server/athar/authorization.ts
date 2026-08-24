@@ -19,6 +19,17 @@ export function canViewOwnStudentRecord(user: AccessUser, studentId: number) {
   return user.role === "student" && user.id === studentId;
 }
 
+/**
+ * First-pass policy shared by weekly report views and the client-side PDF export.
+ * Guardian links and teacher circle assignments are checked by the relevant router
+ * after this organization and role boundary is established.
+ */
+export function canExportWeeklyPdf(user: AccessUser, targetOrganizationId: number | null, studentId: number) {
+  if (!user.organizationId || user.organizationId !== targetOrganizationId) return false;
+  if (user.role === "admin" || user.role === "teacher" || user.role === "guardian") return true;
+  return canViewOwnStudentRecord(user, studentId);
+}
+
 export function requireOrganization(user: AccessUser) {
   if (!user.organizationId) {
     throw new TRPCError({

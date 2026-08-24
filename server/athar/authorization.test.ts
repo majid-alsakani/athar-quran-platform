@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canManageCircle, canViewOwnStudentRecord, hasRole } from "./authorization";
+import { canExportWeeklyPdf, canManageCircle, canViewOwnStudentRecord, hasRole } from "./authorization";
 
 const admin = { id: 1, organizationId: 10, role: "admin" as const };
 const teacher = { id: 2, organizationId: 10, role: "teacher" as const };
@@ -30,5 +30,12 @@ describe("Athar authorization boundaries", () => {
   it("matches role membership explicitly", () => {
     expect(hasRole(teacher, ["admin", "teacher"])).toBe(true);
     expect(hasRole(student, ["admin", "teacher"])).toBe(false);
+  });
+
+  it("requires the weekly-PDF path to stay in organization scope and limits students to their own report", () => {
+    expect(canExportWeeklyPdf(admin, 10, 9)).toBe(true);
+    expect(canExportWeeklyPdf(student, 10, 4)).toBe(true);
+    expect(canExportWeeklyPdf(student, 10, 9)).toBe(false);
+    expect(canExportWeeklyPdf(admin, 11, 9)).toBe(false);
   });
 });

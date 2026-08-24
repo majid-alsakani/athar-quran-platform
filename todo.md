@@ -19,3 +19,9 @@
 - [x] Add UI enrollment of students into a circle and session-management actions for the relevant roles.
 - [x] Capture memorization and revision ranges, tajweed grade, progress notes, and session notes in the mobile workflow.
 - [x] Add scoped query-error states with retry actions throughout the internal dashboard.
+- [x] Generate shareable weekly-report PDFs only for authorized administrators, teachers, guardians, and students.
+- [x] Add a persistent accessible light/dark theme toggle to the public and internal navigation.
+- [x] Add role-scoped interactive progress charts built from real attendance and progress records.
+- [x] Test PDF export authorization and reporting-data aggregation, then verify light/dark and chart layouts on desktop and mobile.
+- [x] Save a checkpoint for the PDF, dark mode, and analytics release.
+- [ ] Visually verify chart rendering after the first real student attendance and progress records are created.
